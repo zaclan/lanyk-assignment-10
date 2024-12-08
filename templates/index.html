@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Image Search</title>
+</head>
+<body>
+    <h1>Image Search</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <label for="query_type">Query Type:</label>
+        <select id="query_type" name="query_type">
+            <option value="text">Text Only</option>
+            <option value="image">Image Only</option>
+            <option value="hybrid">Hybrid</option>
+        </select><br><br>
+
+        <label for="text_query">Text Query:</label>
+        <input type="text" id="text_query" name="text_query" placeholder="e.g. cat on sofa" /><br><br>
+
+        <label for="image_query">Image Query:</label>
+        <input type="file" id="image_query" name="image_query" accept="image/*" /><br><br>
+
+        <label for="lambda">Text/Image Weight (0.0 - 1.0):</label>
+        <input type="text" id="lambda" name="lambda" value="0.5" /><br><br>
+
+        <label for="use_pca">Use PCA Embeddings (Image-only queries):</label>
+        <input type="checkbox" id="use_pca" name="use_pca" /><br><br>
+
+        <input type="submit" value="Search" />
+    </form>
+
+    {% if results and results|length > 0 %}
+    <h2>Search Results</h2>
+    {% for filename, score in results %}
+    <div style="margin-bottom:20px;">
+        <img src="static/{{ image_folder }}/{{ filename }}" alt="{{ filename }}" style="max-width:200px;max-height:200px;"><br>
+        <p>Score/Distance: {{ score }}</p>
+    </div>
+    {% endfor %}
+    {% endif %}
+</body>
+</html>
